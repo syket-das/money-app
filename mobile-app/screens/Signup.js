@@ -25,10 +25,11 @@ const Signup = ({ navigation }) => {
     name: '',
     email: '',
     password: '',
+    phone: '',
   });
 
   const handleRegister = () => {
-    register(data.name, data.email, data.password);
+    register(data.name, data.email, data.password, data.phone);
   };
 
   useEffect(() => {
@@ -129,6 +130,41 @@ const Signup = ({ navigation }) => {
               }}
               value={data.email}
               onChangeText={(val) => setData({ ...data, email: val })}
+            />
+          </View>
+        </View>
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              marginVertical: 8,
+            }}
+          >
+            Phone
+          </Text>
+
+          <View
+            style={{
+              width: '100%',
+              height: 48,
+              borderColor: COLORS.black,
+              borderWidth: 1,
+              borderRadius: 8,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: 22,
+            }}
+          >
+            <TextInput
+              placeholder="Enter your phone number"
+              placeholderTextColor={COLORS.black}
+              keyboardType="default"
+              style={{
+                width: '100%',
+              }}
+              value={data.phone}
+              onChangeText={(val) => setData({ ...data, phone: val })}
             />
           </View>
         </View>

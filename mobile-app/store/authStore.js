@@ -63,12 +63,13 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  register: async (name, email, pass) => {
+  register: async (name, email, pass, phone) => {
     try {
       const response = await axios.post(`${URL}/api/v1/auth/register`, {
         name: name,
         email: email,
         password: pass,
+        phone: phone,
       });
 
       await setAuthToken(response.data.accessToken);

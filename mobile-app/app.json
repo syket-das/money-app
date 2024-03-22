@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "login-register-ui",
-    "slug": "login-register-ui",
+    "name": "money-app",
+    "slug": "money-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -21,13 +19,26 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.syket.moneyapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
+    ],
+    "updates": {
+      "url": "https://u.expo.dev/83701c5d-60f7-4508-b555-d43a9f078ce9"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "83701c5d-60f7-4508-b555-d43a9f078ce9"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }

@@ -12,10 +12,12 @@ const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
   try {
-    const { email, password, name } = req.body;
-    if (!email || !password || !name) {
+    const { email, password, name, phone } = req.body;
+    if (!email || !password || !name || !phone) {
       res.status(400);
-      throw new Error('You must provide an email and a password.');
+      throw new Error(
+        'You must provide an email, password,  name and a phone number.'
+      );
     }
 
     const existingUser = await findUserByEmail(email);
@@ -25,7 +27,12 @@ router.post('/register', async (req, res, next) => {
       throw new Error('Email already in use.');
     }
 
-    const user = await createUserByEmailAndPassword({ name, email, password });
+    const user = await createUserByEmailAndPassword({
+      name,
+      email,
+      phone,
+      password,
+    });
     const jti = uuidv4();
     const { accessToken } = generateTokens(user, jti);
 
