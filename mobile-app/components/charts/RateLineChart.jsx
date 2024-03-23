@@ -1,15 +1,29 @@
 import { View, Text, Dimensions } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LineChart } from 'react-native-gifted-charts';
+import useExchangeRateStore from '../../store/exchangeRateStore';
 
 const RateLineChart = () => {
-  const data = [{ value: 15 }, { value: 30 }, { value: 26 }, { value: 40 }];
+  const { exchangeRates, getExchangeRates } = useExchangeRateStore(
+    (state) => state
+  );
+
+  useEffect(() => {
+    getExchangeRates();
+  }, []);
+  let lastIndex = exchangeRates.length - 1;
 
   return (
     <LineChart
       width={Dimensions.get('window').width - 100}
       areaChart
-      data={data}
+      data={exchangeRates.map((rate, index) => {
+        return {
+          value: rate.rate,
+          label: new Date(rate.createdAt).toLocaleDateString(),
+          frontColor: index === lastIndex ? 'red' : 'lightgray',
+        };
+      })}
     />
   );
 };

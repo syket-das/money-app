@@ -57,13 +57,24 @@ router.post('/withdraw', isAuthenticated, async (req, res, next) => {
   try {
     console.log(req.body, req.payload);
     const { userId } = req.payload;
-    const { bdt, accountNumber, method, message } = req.body;
+    const {
+      bdt,
+      accountNumber,
+      method,
+      message,
+      ifscCode,
+      accountHolder,
+      branchName,
+    } = req.body;
 
     const data = {
       bdt: Number(bdt),
       accountNumber,
       method,
       message,
+      ifscCode,
+      accountHolder,
+      branchName,
     };
 
     const exchangeRate = await getExchangeRates();

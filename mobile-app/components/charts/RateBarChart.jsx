@@ -30,6 +30,7 @@ const RateBarChart = () => {
   return (
     <View>
       <BarChart
+        scrollToIndex={exchangeRates.length - 1}
         width={Dimensions.get('window').width - 100}
         barWidth={40}
         barBorderRadius={4}

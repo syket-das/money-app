@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
 import useAuthStore from '../store/authStore';
+import Toast from 'react-native-simple-toast';
 
 const Signup = ({ navigation }) => {
   const { login, authToken, authErr, clearAuthErr, register } = useAuthStore(
@@ -28,19 +30,32 @@ const Signup = ({ navigation }) => {
     phone: '',
   });
 
-  const handleRegister = () => {
-    register(data.name, data.email, data.password, data.phone);
-  };
+  const handleRegister = async () => {
+    try {
+      await register(data.name, data.email, data.password, data.phone);
+      if (authToken) {
+        Toast.show('Account created successfully', Toast.SHORT, {
+          backgroundColor: COLORS.success,
+          textColor: COLORS.white,
+        });
 
-  useEffect(() => {
-    if (authToken) {
-      navigation.navigate('BottomTabNavigation');
+        navigation.navigate('BottomTabNavigation');
+      }
+    } catch (error) {
+      console.log(error);
+      Toast.show(error?.message || 'Account creation failed!!', Toast.SHORT, {
+        backgroundColor: COLORS.error,
+        textColor: COLORS.white,
+      });
     }
-  }, [authToken]);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-      <View style={{ flex: 1, marginHorizontal: 22 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, marginHorizontal: 22 }}
+      >
         <View style={{ marginVertical: 22 }}>
           <Text
             style={{
@@ -355,7 +370,7 @@ const Signup = ({ navigation }) => {
             </Text>
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

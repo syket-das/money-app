@@ -122,7 +122,7 @@ const Welcome = ({ navigation }) => {
           style={{
             paddingHorizontal: 22,
             position: 'absolute',
-            bottom: 0,
+            bottom: 10,
             width: '100%',
           }}
         >
@@ -153,7 +153,7 @@ const Welcome = ({ navigation }) => {
                 marginVertical: 4,
               }}
             >
-              Connect with each other with chatting
+              Access your account, balance and
             </Text>
             <Text
               style={{
@@ -161,13 +161,13 @@ const Welcome = ({ navigation }) => {
                 color: COLORS.white,
               }}
             >
-              Calling, Enjoy Safe and private texting
+              transactions anytime, anywhere.
             </Text>
           </View>
 
           <Button
             title="Join Now"
-            onPress={() => navigation.navigate('BottomTabNavigation')}
+            onPress={() => navigation.navigate('Signup')}
             style={{
               marginTop: 22,
               width: '100%',

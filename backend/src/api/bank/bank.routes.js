@@ -1,0 +1,66 @@
+const express = require('express');
+const { isAuthenticated, isAdmin } = require('../../middlewares');
+
+const {
+  addBankAccount,
+  removeBankAccount,
+  getBankAccountsByUser,
+} = require('./bank.services');
+
+const router = express.Router();
+
+router.post('/add-bank', isAuthenticated, async (req, res) => {
+  try {
+    const { userId } = req.payload;
+
+    const { bankName, accountHolderName, accountNumber, branchName, ifscCode } =
+      req.body;
+
+    const bankAccount = await addBankAccount(userId, {
+      bankName,
+      accountHolderName,
+      accountNumber,
+      branchName,
+      ifscCode,
+    });
+
+    res.json({
+      message: 'Bank account added successfully',
+      bankAccount,
+    });
+  } catch (error) {
+    // console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/remove-bank/:id', isAuthenticated, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await removeBankAccount(id);
+
+    res.json({
+      message: 'Bank account removed successfully',
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/bank-accounts', isAuthenticated, async (req, res) => {
+  try {
+    const { id } = req.payload;
+
+    const bankAccounts = await getBankAccountsByUser(id);
+
+    res.json({
+      success: true,
+      data: bankAccounts,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+module.exports = router;

@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import Button from '../components/Button';
 import useAuthStore from '../store/authStore';
+import Toast from 'react-native-simple-toast';
 
 const Login = ({ navigation }) => {
   const { login, authToken, authErr, clearAuthErr } = useAuthStore(
@@ -27,10 +28,20 @@ const Login = ({ navigation }) => {
     try {
       await login(email, password);
       if (authToken) {
+        Toast.show('Login successful', Toast.SHORT, {
+          backgroundColor: COLORS.success,
+          textColor: COLORS.white,
+        });
+
         navigation.navigate('BottomTabNavigation');
       }
     } catch (error) {
       console.log(error);
+
+      Toast.show(error?.message || 'Login Failed!!', Toast.SHORT, {
+        backgroundColor: 'red',
+        textColor: COLORS.white,
+      });
     }
   };
 

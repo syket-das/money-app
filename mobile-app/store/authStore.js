@@ -59,7 +59,7 @@ const useAuthStore = create((set) => ({
     } catch (error) {
       console.log('error', error);
       set({ authErr: error });
-      throw new Error(error);
+      throw new Error(error?.response?.data?.message || 'Login failed!!');
     }
   },
 
@@ -77,6 +77,9 @@ const useAuthStore = create((set) => ({
       set({ authToken: response.data.accessToken });
     } catch (error) {
       set({ authErr: error });
+      throw new Error(
+        error?.response?.data?.message || 'Registration failed!!'
+      );
     }
   },
 

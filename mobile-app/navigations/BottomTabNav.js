@@ -8,12 +8,13 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS } from '../constants';
 import Home from '../screens/Home';
 import Create from '../screens/Create';
 import Settings from '../screens/Settings';
 import { Profile } from '../screens';
 import Money from '../screens/Money';
+import BankAccount from '../screens/BankAccount';
+import COLORS from '../constants/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,24 +52,8 @@ const BottomTabNav = () => {
       />
 
       <Tab.Screen
-        name="money"
-        component={Money}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <FontAwesome
-                name="money"
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
-              />
-            );
-          },
-        }}
-      />
-
-      <Tab.Screen
-        name="Create"
-        component={Create}
+        name="BankAccount"
+        component={BankAccount}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -85,24 +70,12 @@ const BottomTabNav = () => {
                   borderColor: COLORS.white,
                 }}
               >
-                <Fontisto name="wallet" size={24} color={COLORS.white} />
+                <MaterialCommunityIcons
+                  name="bank"
+                  size={24}
+                  color={COLORS.white}
+                />
               </View>
-            );
-          },
-        }}
-      />
-
-      <Tab.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <MaterialIcons
-                name="settings"
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
-              />
             );
           },
         }}
