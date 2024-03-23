@@ -58,8 +58,8 @@ const Home = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView className="px-4">
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView className="px-4 relative ">
+      <ScrollView className="" showsVerticalScrollIndicator={false}>
         <StatusBar barStyle="light-content" />
         <View className="flex-row justify-between mt-8">
           <View>
@@ -80,7 +80,7 @@ const Home = ({ navigation }) => {
           </View>
         </View>
 
-        <View className="mt-8">
+        <View className="mt-8 p-4 bg-gray-200 rounded-lg">
           <View className="flex-row items-center justify-between">
             <Text className=" text-lg font-bold mb-4">BDT | INR </Text>
             <Text className=" text-2xl text-red-600 font-bold mb-4">

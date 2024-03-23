@@ -4,6 +4,7 @@ import { COLORS } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../components/Button';
 import useMoneyStore from '../store/moneyStore';
+import Toast from 'react-native-simple-toast';
 
 const AddMoneyRequest = () => {
   const { addMoneyRequest } = useMoneyStore((state) => state);
@@ -17,6 +18,17 @@ const AddMoneyRequest = () => {
   });
 
   const handleAddMoneyRequest = async () => {
+    if (
+      data.bdt === 0 ||
+      data.transactionId === '' ||
+      data.accountNumber === '' ||
+      data.method === '' ||
+      data.message === ''
+    ) {
+      Toast.show('Please fill all the fields', Toast.SHORT);
+      return;
+    }
+
     try {
       await addMoneyRequest(data);
 

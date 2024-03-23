@@ -18,7 +18,19 @@ const WithdrawComponent = ({ props }) => {
         <Text className="text-xs text-red-700">
           {props?.exchangeRate?.rate}
         </Text>
-        <Text className="text-sm">{props.status}</Text>
+        <Text
+          style={{
+            color:
+              props.status === 'COMPLETED'
+                ? 'green'
+                : props.status === 'PENDING'
+                ? 'blue'
+                : 'red',
+          }}
+          className="text-sm"
+        >
+          {props.status}
+        </Text>
       </View>
     </View>
   );

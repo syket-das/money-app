@@ -39,6 +39,11 @@ const BankAccount = () => {
   }, []);
 
   const handleAddBankAccount = async () => {
+    if (!data.bankName || !data.accountNumber) {
+      Toast.show('Bank Name and Account Number are required', Toast.LONG);
+      return;
+    }
+
     const response = await addBankAccount(data);
     if (response) {
       Toast.show('Bank Account Added Successfully', Toast.LONG, Toast.TOP);
