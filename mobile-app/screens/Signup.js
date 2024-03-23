@@ -32,6 +32,19 @@ const Signup = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
+      if (
+        data.name === '' ||
+        data.email === '' ||
+        data.password === '' ||
+        data.phone === ''
+      ) {
+        Toast.show('Please fill all the fields', Toast.SHORT, {
+          backgroundColor: COLORS.error,
+          textColor: COLORS.white,
+        });
+        return;
+      }
+
       await register(data.name, data.email, data.password, data.phone);
       if (authToken) {
         Toast.show('Account created successfully', Toast.SHORT, {

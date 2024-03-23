@@ -57,6 +57,13 @@ export const WithdrawMoneyDataTable = () => {
       header: 'Payment Method',
     },
     {
+      accessorKey: 'branchName',
+      header: 'Branch Name',
+      cell: ({ row }) => {
+        return <div>{row.original.branchName || 'NA'}</div>;
+      },
+    },
+    {
       accessorKey: 'createdAt',
       header: 'Created At',
       cell: ({ row }) => {
