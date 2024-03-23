@@ -11,7 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Create from '../screens/Create';
 import Settings from '../screens/Settings';
-import { Profile } from '../screens';
+import { EditProfile, Profile } from '../screens';
 import Money from '../screens/Money';
 import BankAccount from '../screens/BankAccount';
 import COLORS from '../constants/colors';
@@ -83,7 +83,7 @@ const BottomTabNav = () => {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={EditProfile}
         options={{
           tabBarIcon: ({ focused }) => {
             return (

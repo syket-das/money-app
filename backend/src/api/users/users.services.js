@@ -21,6 +21,11 @@ function findUserById(id) {
     where: {
       id,
     },
+
+    include: {
+      addMoneyRequests: true,
+      withdrawMoneyRequests: true,
+    },
   });
 }
 

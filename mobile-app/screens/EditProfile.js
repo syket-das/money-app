@@ -7,20 +7,34 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { COLORS, FONTS } from '../constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import { imagesDataURL } from '../constants/data';
 import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
+import useUserStore from '../store/userStore';
 
 const EditProfile = ({ navigation }) => {
+  const { user, getUser } = useUserStore((state) => state);
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   const [selectedImage, setSelectedImage] = useState(imagesDataURL[0]);
-  const [name, setName] = useState('Melissa Peters');
-  const [email, setEmail] = useState('metperters@gmail.com');
-  const [password, setPassword] = useState('randompassword');
-  const [country, setCountry] = useState('Nigeria');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [country, setCountry] = useState('');
+
+  useEffect(() => {
+    setName(user?.name);
+    setEmail(user?.email);
+    setPhone(user?.phone);
+    setCountry(user?.country);
+  }, [user]);
 
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const today = new Date();
@@ -124,6 +138,7 @@ const EditProfile = ({ navigation }) => {
       <View
         style={{
           marginHorizontal: 12,
+          marginVertical: 12,
           flexDirection: 'row',
           justifyContent: 'center',
         }}
@@ -145,8 +160,8 @@ const EditProfile = ({ navigation }) => {
         <Text style={{ ...FONTS.h3 }}>Edit Profile</Text>
       </View>
 
-      <ScrollView>
-        <View
+      <ScrollView className="mt-8">
+        {/* <View
           style={{
             alignItems: 'center',
             marginVertical: 22,
@@ -179,7 +194,7 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View>
           <View
@@ -208,7 +223,6 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
           </View>
-
           <View
             style={{
               flexDirection: 'column',
@@ -235,14 +249,13 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
           </View>
-
           <View
             style={{
               flexDirection: 'column',
               marginBottom: 6,
             }}
           >
-            <Text style={{ ...FONTS.h4 }}>Password</Text>
+            <Text style={{ ...FONTS.h4 }}>Phone</Text>
             <View
               style={{
                 height: 44,
@@ -256,36 +269,11 @@ const EditProfile = ({ navigation }) => {
               }}
             >
               <TextInput
-                value={password}
-                onChangeText={(value) => setPassword(value)}
+                value={phone}
+                onChangeText={(value) => setPhone(value)}
                 editable={true}
-                secureTextEntry
               />
             </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'column',
-              marginBottom: 6,
-            }}
-          >
-            <Text style={{ ...FONTS.h4 }}>Date or Birth</Text>
-            <TouchableOpacity
-              onPress={handleOnPressStartDate}
-              style={{
-                height: 44,
-                width: '100%',
-                borderColor: COLORS.secondaryGray,
-                borderWidth: 1,
-                borderRadius: 4,
-                marginVertical: 6,
-                justifyContent: 'center',
-                paddingLeft: 8,
-              }}
-            >
-              <Text>{selectedStartDate}</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -334,8 +322,6 @@ const EditProfile = ({ navigation }) => {
             Save Change
           </Text>
         </TouchableOpacity>
-
-        {renderDatePicker()}
       </ScrollView>
     </SafeAreaView>
   );

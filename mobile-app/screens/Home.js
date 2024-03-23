@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -29,6 +29,29 @@ const Home = ({ navigation }) => {
     (state) => state
   );
 
+  const [totalCompletedAmountAdded, setTotalCompletedAmountAdded] = useState(0);
+  const [totalCompletedAmountWithdrawn, setTotalCompletedAmountWithdrawn] =
+    useState(0);
+
+  useEffect(() => {
+    if (user) {
+      let totalAdded = 0;
+      let totalWithdrawn = 0;
+      user.addMoneyRequests.forEach((req) => {
+        if (req.status === 'COMPLETED') {
+          totalAdded += Number(req.bdt);
+        }
+      });
+      user.withdrawMoneyRequests.forEach((req) => {
+        if (req.status === 'COMPLETED') {
+          totalWithdrawn += Number(req.bdt);
+        }
+      });
+      setTotalCompletedAmountAdded(Number(totalAdded));
+      setTotalCompletedAmountWithdrawn(Number(totalWithdrawn));
+    }
+  }, [user]);
+
   useEffect(() => {
     getExchangeRates();
     getUser();
@@ -48,8 +71,12 @@ const Home = ({ navigation }) => {
             </View>
           </View>
           <View className="flex-row items-center gap-x-2">
-            <Text className=" font-bold">BDT 5000</Text>
-            <MaterialCommunityIcons name="wallet" size={24} />
+            <Text className=" font-bold ">
+              <MaterialCommunityIcons name="currency-bdt" size={24} />
+              <Text className=" text-3xl text-teal-600">
+                {totalCompletedAmountAdded - totalCompletedAmountWithdrawn}
+              </Text>
+            </Text>
           </View>
         </View>
 
@@ -95,7 +122,7 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate('money')}
+              onPress={() => navigation.navigate('Money')}
               className=" items-center justify-between bg-yellow-500 p-4 rounded-lg flex-1"
             >
               <MaterialIcons name="history" size={24} color="white" />

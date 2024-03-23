@@ -9,6 +9,7 @@ import { Login, Signup, Welcome } from './screens';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AddMoneyRequest from './screens/AddMoneyRequest';
 import WithdrawMoneyRequest from './screens/WithdrawMoneyRequest';
+import Money from './screens/Money';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,13 @@ export default function App() {
           <Stack.Screen
             name="WithdrawMoney"
             component={WithdrawMoneyRequest}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Money"
+            component={Money}
             options={{
               headerShown: false,
             }}
