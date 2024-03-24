@@ -16,7 +16,7 @@ const RateBarChart = () => {
   const barData = exchangeRates.map((rate, index) => {
     return {
       value: rate.rate,
-      label: new Date(rate.createdAt).toLocaleDateString(),
+      // label: new Date(rate.createdAt).toLocaleDateString(),
       frontColor: index === lastIndex ? 'red' : 'lightgray',
 
       topLabelComponent: () => (
@@ -32,7 +32,7 @@ const RateBarChart = () => {
       <BarChart
         scrollToIndex={exchangeRates.length - 1}
         width={Dimensions.get('window').width - 100}
-        barWidth={40}
+        barWidth={30}
         barBorderRadius={4}
         frontColor="lightgray"
         data={barData}

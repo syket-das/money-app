@@ -18,6 +18,23 @@ const getAuthToken = async () => {
 
 const useBankStore = create((set) => ({
   bankAccounts: [],
+  adminBanks: [],
+  getAdminBanks: async () => {
+    try {
+      const response = await axios.get(
+        `${URL}/api/v1/bank/admin/bank-accounts`,
+        {
+          headers: {
+            Authorization: `Bearer ${await getAuthToken()}`,
+          },
+        }
+      );
+
+      set({ adminBanks: response.data.data });
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getBankAccounts: async () => {
     try {
       const { data } = await axios.get(`${URL}/api/v1/bank/bank-accounts`, {

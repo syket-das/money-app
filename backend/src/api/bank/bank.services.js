@@ -25,8 +25,40 @@ function getBankAccountsByUser(userId) {
   });
 }
 
+function createAdminBankAccount(data) {
+  return db.adminBankAccount.create({
+    data: {
+      ...data,
+    },
+  });
+}
+
+function getAdminBankAccounts() {
+  return db.adminBankAccount.findMany();
+}
+
+function getAdminBankAccountById(id) {
+  return db.adminBankAccount.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+function removeAdminBankAccount(id) {
+  return db.adminBankAccount.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 module.exports = {
   addBankAccount,
   removeBankAccount,
   getBankAccountsByUser,
+  createAdminBankAccount,
+  getAdminBankAccounts,
+  getAdminBankAccountById,
+  removeAdminBankAccount,
 };

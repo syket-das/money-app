@@ -1,13 +1,24 @@
-import { View, Text, TextInput, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { COLORS } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../components/Button';
 import useMoneyStore from '../store/moneyStore';
 import Toast from 'react-native-simple-toast';
+import useBankStore from '../store/bankStore';
 
 const AddMoneyRequest = () => {
   const { addMoneyRequest } = useMoneyStore((state) => state);
+
+  const { adminBanks, getAdminBanks } = useBankStore((state) => state);
+
+  const [selectedBankId, setSelectedBankId] = useState(null);
 
   const [data, setData] = useState({
     bdt: 0,
@@ -17,6 +28,10 @@ const AddMoneyRequest = () => {
     message: '',
   });
 
+  useEffect(() => {
+    getAdminBanks();
+  }, []);
+
   const handleAddMoneyRequest = async () => {
     if (
       data.bdt === 0 ||
@@ -25,7 +40,10 @@ const AddMoneyRequest = () => {
       data.method === '' ||
       data.message === ''
     ) {
-      Toast.show('Please fill all the fields', Toast.SHORT);
+      Toast.show(
+        'Please fill all the fields. make sure you selected an account',
+        Toast.SHORT
+      );
       return;
     }
 
@@ -65,29 +83,76 @@ const AddMoneyRequest = () => {
           <Text
             style={{
               fontSize: 16,
-              color: COLORS.secondary,
+              color: 'red',
               marginBottom: 12,
             }}
           >
-            Please send the money to the following accounts and fill the form
+            Please select a bank account where you have sent the money
           </Text>
 
-          <View className="">
-            <View className="flex-row justify-between">
-              <Text className="mb-2 font-bold text-slate-600">Bkash</Text>
-              <Text className="mb-2 font-bold text-slate-600">017XXXXXXXX</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="mb-2 font-bold text-slate-600">
-                Dutch Bangla
-              </Text>
-              <Text className="mb-2 font-bold text-slate-600">017XXXXXXXX</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="mb-2 font-bold text-slate-600">Nogod</Text>
-              <Text className="mb-2 font-bold text-slate-600">017XXXXXXXX</Text>
-            </View>
-          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {adminBanks.map((bank) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedBankId(bank.id);
+                  setData({ ...data, method: bank.bankName });
+                }}
+                className=" p-4 m-2 rounded-lg"
+                key={bank.id}
+                style={{
+                  borderColor: selectedBankId === bank.id ? 'green' : 'gray',
+                  backgroundColor: COLORS.white,
+                  borderWidth: 4,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 500,
+                    color: COLORS.black,
+                  }}
+                >
+                  {bank.bankName}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    color: COLORS.black,
+                  }}
+                >
+                  Account Number: {bank.accountNumber}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    color: COLORS.black,
+                  }}
+                >
+                  Account Holder Name: {bank.accountHolderName}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    color: COLORS.black,
+                  }}
+                >
+                  Branch: {bank.branchName}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    color: COLORS.black,
+                  }}
+                >
+                  IFSC: {bank.ifscCode}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
         <View style={{ marginBottom: 12 }}>
           <Text
@@ -190,7 +255,7 @@ const AddMoneyRequest = () => {
             }}
           >
             <TextInput
-              placeholder="Enter account number"
+              placeholder="Enter your account number"
               placeholderTextColor={COLORS.black}
               keyboardType="default"
               style={{
@@ -201,79 +266,7 @@ const AddMoneyRequest = () => {
             />
           </View>
         </View>
-        <View style={{ marginBottom: 12 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            Method
-          </Text>
 
-          <View
-            style={{
-              width: '100%',
-              height: 48,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="eg. Bkash, Rocket, Nagad, Bank name"
-              placeholderTextColor={COLORS.black}
-              keyboardType="default"
-              style={{
-                width: '100%',
-              }}
-              value={data.method}
-              onChangeText={(text) => setData({ ...data, method: text })}
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 12 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              marginVertical: 8,
-            }}
-          >
-            Message
-          </Text>
-
-          <View
-            style={{
-              width: '100%',
-              height: 100,
-              borderColor: COLORS.black,
-              borderWidth: 1,
-              borderRadius: 8,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              multiline
-              placeholder="any message for admin"
-              placeholderTextColor={COLORS.black}
-              keyboardType="default"
-              style={{
-                width: '100%',
-                height: 100,
-                paddingEnd: 22,
-              }}
-              value={data.message}
-              onChangeText={(text) => setData({ ...data, message: text })}
-            />
-          </View>
-        </View>
         <Button
           onPress={handleAddMoneyRequest}
           title="Add Money"

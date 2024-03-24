@@ -106,6 +106,18 @@ model WithdrawMoneyRequest {
   updatedAt DateTime @updatedAt
 }
 
+model AdminBankAccount {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  bankName          String
+  accountHolderName String?
+  accountNumber     String
+  branchName        String?
+  ifscCode          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model ExchangeRate {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   rate Float
